@@ -1,8 +1,14 @@
-const article = document.querySelector('article');
-// `document.querySelector` may return null if the selector doesn't match anything.
-if (article) {
-  //the list of the words that are found in the article
-  var triggerWords = ['not', 'sure', 'where', 'to'];
+//Get the raw txt
+async function fetchTriggerWordsTXT() {
+  const url = chrome.runtime.getURL('data/triggerList.txt');
+  const response = await fetch(url);
+  const text = await response.text();
+  return text;
+}
+
+//What to do AFTER we get our text
+function finishParsing() {
+  console.log('triggerWords:' + triggerWords);
 
   var matchList = [];
   const text = article.textContent;
@@ -15,21 +21,21 @@ if (article) {
       console.log(`We found "${element}"`);
     }
   });
+}
 
-  // count how many matches we got
-  const matchCount = matchList.length;
+//The actual ran code
+const article = document.querySelector('article');
+//The list of our trigger words
+var triggerWords;
+// `document.querySelector` may return null if the selector doesn't match anything.
+if (article) {
+  //Fetch the words, split then based off of new lines, then finish parsing
+  fetchTriggerWordsTXT().then((rawWordList) => {
+    setTriggerWords(rawWordList.split('\n'));
+    finishParsing();
+  });
+}
 
-  //Starting to create the little thingy that is gonna display our information
-  const badge = document.createElement('p');
-
-  // Use the same styling as the publish information in an article's header
-  badge.classList.add('color-secondary-text', 'type--caption');
-  badge.textContent = `⏱️ ${matchCount} matches found`;
-
-  // Support for API reference docs
-  const heading = article.querySelector('h1');
-  // Support for article docs with date
-  const date = article.querySelector('time')?.parentNode;
-
-  (date ?? heading).insertAdjacentElement('afterend', badge);
+function setTriggerWords(value) {
+  triggerWords = value;
 }
