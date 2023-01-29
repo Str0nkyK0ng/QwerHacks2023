@@ -2,7 +2,7 @@ var matches;
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.action.setBadgeText({
-    text: '1',
+    text: '0',
   });
   chrome.action.setBadgeBackgroundColor(
     { color: '#FFB09F' }, // RED
