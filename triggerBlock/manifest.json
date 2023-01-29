@@ -8,7 +8,8 @@
     "default_popup": "scripts/trigger.html",
     "default_icon": "images/turtle_extension.png"
   },
-  
+  "permissions": ["nativeMessaging"],
+
   "icons": {
     "16": "images/icon-16.png",
     "32": "images/icon-32.png",
@@ -19,10 +20,7 @@
   "content_scripts": [
     {
       "js": ["scripts/content_fork.js"],
-      "matches": [
-        "https://developer.chrome.com/docs/extensions/*",
-        "https://developer.chrome.com/docs/webstore/*"
-      ]
+      "matches": ["https://*/*"]
     }
   ],
 
@@ -31,5 +29,8 @@
       "resources": ["data/triggerList.txt"],
       "matches": ["https://*/*"]
     }
-  ]
+  ],
+  "background": {
+    "service_worker": "scripts/background.js"
+  }
 }
