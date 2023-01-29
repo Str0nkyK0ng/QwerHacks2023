@@ -21,7 +21,9 @@ function finishParsing() {
       console.log(`We found "${element}"`);
     }
   });
-  chrome.runtime.sendMessage(0, { count: matchList.length });
+  chrome.runtime.sendMessage(matchList, function (response) {
+    console.log(response);
+  });
 }
 
 //The actual ran code
@@ -36,11 +38,6 @@ if (article) {
     finishParsing();
   });
   // 1. Send a message to the service worker requesting the user's data
-  chrome.runtime.sendMessage('get-user-data', (response) => {
-    // 3. Got an asynchronous response with the data from the service worker
-    console.log('received user data', response);
-    initializeUI(response);
-  });
 }
 
 function setTriggerWords(value) {

@@ -20,7 +20,7 @@
 
   "content_scripts": [
     {
-      "js": ["scripts/content_fork.js"],
+      "js": ["scripts/content_fork.js", "scripts/helper.js"],
       "matches": ["https://*/*"]
     }
   ],

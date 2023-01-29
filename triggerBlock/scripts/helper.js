@@ -1,20 +1,16 @@
-function setCloudStorage(val) {
-  chrome.storage.sync.set({ userTriggerWords: val });
-  console.log('Pushed Cloud Storage:' + val);
-}
+var words = '';
 
-function getCloudStorage() {
-  chrome.storage.sync.get(['userTriggerWords']).then((result) => {
-    console.log('Raw From Cloud:' + result.userTriggerWords);
-    return result.userTriggerWords;
+chrome.runtime.onMessage.addListener(function (response, sendResponse) {
+  words = response;
+  response.forEach((word) => {
+    document.getElementById('triggers').innerHTML += `<li> ${word} </li>`;
   });
-}
 
-chrome.storage.onChanged.addListener((changes, namespace) => {
-  for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-    console.log(
-      `Storage key "${key}" in namespace "${namespace}" changed.`,
-      `Old value was "${oldValue}", new value is "${newValue}".`
-    );
-  }
+  return true;
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  chrome.runtime.sendMessage('naur', function (response) {
+    document.getElementById('triggers').innerHTML = response;
+  });
 });
