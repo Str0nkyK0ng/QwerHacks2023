@@ -15,7 +15,7 @@ function finishParsing() {
 
   //Search for every word in our trigger list in the article content
   triggerWords.forEach((element) => {
-    if (text.includes(element)) {
+    if (text.toLowerCase().includes(element)) {
       //add it to our matchList
       matchList.push(element);
       console.log(`We found "${element}"`);
