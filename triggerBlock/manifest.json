@@ -6,7 +6,8 @@
 
   "action": {
     "default_popup": "scripts/trigger.html",
-    "default_icon": "images/turtle_extension.png"
+    "default_icon": "images/turtle_extension.png",
+    "48": "images/turtle_extension.png"
   },
   "permissions": ["nativeMessaging"],
 
